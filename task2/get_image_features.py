@@ -3,12 +3,12 @@ from io import BytesIO
 
 import numpy as np
 import pandas as pd
-import requests
 import torch
 from efficientnet_pytorch import EfficientNet
 from PIL import Image
 from sentence_transformers import SentenceTransformer
 from torchvision import transforms
+from security import safe_requests
 
 OBJECTS_PATH = "opendata/objects.csv"
 PUBLISHED_IMAGES_PATH = "opendata/published_images.csv"
@@ -47,7 +47,7 @@ transform = transforms.Compose(
 
 
 def fetch_image(url, transform):
-    response = requests.get(url)
+    response = safe_requests.get(url)
     image = Image.open(BytesIO(response.content))
     return image, transform(image)
 
